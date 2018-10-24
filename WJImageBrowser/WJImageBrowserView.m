@@ -71,6 +71,7 @@
     _pageView.frame = CGRectMake((self.frame.size.width - size.width) / 2.0, self.frame.size.height - size.height - 20, size.width, size.height);
     _pageView.numberOfPages = _cacheViews.count;
     _pageView.currentPage = self.currentIndex;
+    _pageView.hidden = (_cacheViews.count <= 1);
     
     [[UIApplication sharedApplication].keyWindow addSubview:self];
     if (self.currentIndex < _cacheViews.count) {
