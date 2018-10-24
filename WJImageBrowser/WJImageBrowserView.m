@@ -12,6 +12,7 @@
 
 @implementation WJImageBrowserView {
     UIScrollView *_scrollView;
+    UIPageControl *_pageView;
     NSArray *_cacheViews;
 }
 
@@ -33,6 +34,12 @@
     _scrollView.pagingEnabled = YES;
     _scrollView.delegate = self;
     [self addSubview:_scrollView];
+    
+    _pageView = [[UIPageControl alloc] init];
+    _pageView.userInteractionEnabled = NO;
+    _pageView.currentPageIndicatorTintColor = [UIColor whiteColor];
+    _pageView.pageIndicatorTintColor = [UIColor grayColor];
+    [self addSubview:_pageView];
 }
 
 - (void)show {
@@ -60,6 +67,11 @@
     _cacheViews = [array copy];
     _scrollView.contentSize = CGSizeMake(_cacheViews.count * _scrollView.frame.size.width, _scrollView.frame.size.height);
     [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width * self.currentIndex, 0)];
+    CGSize size = [_pageView sizeForNumberOfPages:_cacheViews.count];
+    _pageView.frame = CGRectMake((self.frame.size.width - size.width) / 2.0, self.frame.size.height - size.height - 20, size.width, size.height);
+    _pageView.numberOfPages = _cacheViews.count;
+    _pageView.currentPage = self.currentIndex;
+    
     [[UIApplication sharedApplication].keyWindow addSubview:self];
     if (self.currentIndex < _cacheViews.count) {
         //执行动画
@@ -109,6 +121,7 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     self.currentIndex = scrollView.contentOffset.x / scrollView.frame.size.width;
+    _pageView.currentPage = self.currentIndex;
 }
 
 @end

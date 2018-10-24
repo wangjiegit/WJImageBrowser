@@ -15,6 +15,12 @@
 		A041C7D1217EC52500D6714C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A041C7CF217EC52500D6714C /* LaunchScreen.storyboard */; };
 		A041C7D4217EC52500D6714C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A041C7D3217EC52500D6714C /* main.m */; };
 		A041C7DC217EC56C00D6714C /* WJImageBrowserView.m in Sources */ = {isa = PBXBuildFile; fileRef = A041C7DB217EC56C00D6714C /* WJImageBrowserView.m */; };
+		A0EF366E218079F200669E33 /* 6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A0EF366D218079F200669E33 /* 6.jpg */; };
+		A0EF3670218079F800669E33 /* 5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A0EF366F218079F800669E33 /* 5.jpg */; };
+		A0EF3672218079FE00669E33 /* 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A0EF3671218079FE00669E33 /* 4.jpg */; };
+		A0EF367421807A0600669E33 /* 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A0EF367321807A0600669E33 /* 3.jpg */; };
+		A0EF367621807A0C00669E33 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A0EF367521807A0C00669E33 /* 2.jpg */; };
+		A0EF367821807A1100669E33 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A0EF367721807A1100669E33 /* 1.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +37,12 @@
 		A041C7D3217EC52500D6714C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A041C7DA217EC56C00D6714C /* WJImageBrowserView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WJImageBrowserView.h; sourceTree = "<group>"; };
 		A041C7DB217EC56C00D6714C /* WJImageBrowserView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WJImageBrowserView.m; sourceTree = "<group>"; };
+		A0EF366D218079F200669E33 /* 6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 6.jpg; sourceTree = "<group>"; };
+		A0EF366F218079F800669E33 /* 5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 5.jpg; sourceTree = "<group>"; };
+		A0EF3671218079FE00669E33 /* 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 4.jpg; sourceTree = "<group>"; };
+		A0EF367321807A0600669E33 /* 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 3.jpg; sourceTree = "<group>"; };
+		A0EF367521807A0C00669E33 /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
+		A0EF367721807A1100669E33 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
 		AC06A081D1758256E3E76BA9 /* libPods-WJImageBrowser.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WJImageBrowser.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5DCBCFEAAE98393EEF86119 /* Pods-WJImageBrowser.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WJImageBrowser.release.xcconfig"; path = "Pods/Target Support Files/Pods-WJImageBrowser/Pods-WJImageBrowser.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -85,6 +97,7 @@
 		A041C7C3217EC52300D6714C /* WJImageBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				A0EF366C218079DD00669E33 /* image */,
 				A041C7C4217EC52300D6714C /* AppDelegate.h */,
 				A041C7C5217EC52300D6714C /* AppDelegate.m */,
 				A041C7C7217EC52300D6714C /* ViewController.h */,
@@ -98,6 +111,19 @@
 				A041C7D3217EC52500D6714C /* main.m */,
 			);
 			path = WJImageBrowser;
+			sourceTree = "<group>";
+		};
+		A0EF366C218079DD00669E33 /* image */ = {
+			isa = PBXGroup;
+			children = (
+				A0EF367721807A1100669E33 /* 1.jpg */,
+				A0EF367521807A0C00669E33 /* 2.jpg */,
+				A0EF367321807A0600669E33 /* 3.jpg */,
+				A0EF3671218079FE00669E33 /* 4.jpg */,
+				A0EF366F218079F800669E33 /* 5.jpg */,
+				A0EF366D218079F200669E33 /* 6.jpg */,
+			);
+			path = image;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -158,9 +184,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0EF3672218079FE00669E33 /* 4.jpg in Resources */,
 				A041C7D1217EC52500D6714C /* LaunchScreen.storyboard in Resources */,
 				A041C7CE217EC52500D6714C /* Assets.xcassets in Resources */,
+				A0EF366E218079F200669E33 /* 6.jpg in Resources */,
 				A041C7CC217EC52300D6714C /* Main.storyboard in Resources */,
+				A0EF367421807A0600669E33 /* 3.jpg in Resources */,
+				A0EF367821807A1100669E33 /* 1.jpg in Resources */,
+				A0EF367621807A0C00669E33 /* 2.jpg in Resources */,
+				A0EF3670218079F800669E33 /* 5.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
