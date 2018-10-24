@@ -100,6 +100,7 @@
 //关闭视图
 - (void)close {
     if (self.currentIndex < self.originalViews.count) {
+        _pageView.hidden = YES;
         UIImageView *currentOriginalView = self.originalViews[self.currentIndex];
         WJImageBrowserItem *currentItem = _cacheViews[self.currentIndex];
         CGRect frame = [currentOriginalView convertRect:currentOriginalView.bounds toView:nil];
