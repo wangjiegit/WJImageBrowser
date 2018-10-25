@@ -36,6 +36,7 @@
     [self addSubview:_scrollView];
     
     _pageView = [[UIPageControl alloc] init];
+    _pageView.hidesForSinglePage = YES;
     _pageView.userInteractionEnabled = NO;
     _pageView.currentPageIndicatorTintColor = [UIColor whiteColor];
     _pageView.pageIndicatorTintColor = [UIColor grayColor];
@@ -67,11 +68,10 @@
     _cacheViews = [array copy];
     _scrollView.contentSize = CGSizeMake(_cacheViews.count * _scrollView.frame.size.width, _scrollView.frame.size.height);
     [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width * self.currentIndex, 0)];
-    CGSize size = [_pageView sizeForNumberOfPages:_cacheViews.count];
-    _pageView.frame = CGRectMake((self.frame.size.width - size.width) / 2.0, self.frame.size.height - size.height - 20, size.width, size.height);
     _pageView.numberOfPages = _cacheViews.count;
     _pageView.currentPage = self.currentIndex;
-    _pageView.hidden = (_cacheViews.count <= 1);
+    CGSize size = [_pageView sizeForNumberOfPages:_cacheViews.count];
+    _pageView.frame = CGRectMake((self.frame.size.width - size.width) / 2.0, self.frame.size.height - size.height - 20, size.width, size.height);
     
     [[UIApplication sharedApplication].keyWindow addSubview:self];
     if (self.currentIndex < _cacheViews.count) {
