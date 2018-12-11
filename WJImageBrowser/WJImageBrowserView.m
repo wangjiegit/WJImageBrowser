@@ -160,7 +160,7 @@
 - (void)configContentSize {
     UIImage *img = self.imgView.image;
     if (img) {
-        CGFloat height = img.size.height * self.frame.size.width / img.size.width;
+        CGFloat height = floorf(img.size.height * self.frame.size.width / img.size.width);
         if (height < self.frame.size.height) height = self.frame.size.height;
         self.imgView.frame = CGRectMake(0, 0, self.frame.size.width, height);
         self.scrollView.contentSize = CGSizeMake(self.frame.size.width, height);
