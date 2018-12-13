@@ -31,6 +31,7 @@
     _scrollView = [[UIScrollView alloc] init];
     _scrollView.frame = CGRectMake(0, 0, self.frame.size.width + 10, self.frame.size.height);
     _scrollView.showsHorizontalScrollIndicator = NO;
+    _scrollView.bounces = NO;
     _scrollView.pagingEnabled = YES;
     _scrollView.delegate = self;
     [self addSubview:_scrollView];
@@ -143,7 +144,7 @@
         UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(close)];
         [self addGestureRecognizer:tgr];//单击
         
-        UITapGestureRecognizer *doubleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapFrom)];
+        UITapGestureRecognizer *doubleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapFrom:)];
         doubleRecognizer.numberOfTapsRequired = 2; // 双击
         [self addGestureRecognizer:doubleRecognizer];
         
@@ -161,8 +162,8 @@
     UIImage *img = self.imgView.image;
     if (img) {
         CGFloat height = floorf(img.size.height * self.frame.size.width / img.size.width);
-        if (height < self.frame.size.height) height = self.frame.size.height;
-        self.imgView.frame = CGRectMake(0, 0, self.frame.size.width, height);
+        CGFloat y = height >= self.frame.size.height ? 0 : (self.frame.size.height - height) / 2.0;
+        self.imgView.frame = CGRectMake(0, y, self.frame.size.width, height);
         self.scrollView.contentSize = CGSizeMake(self.frame.size.width, height);
     } else {
         self.imgView.frame = self.bounds;
@@ -201,12 +202,12 @@
 }
 
 //双击放大或缩小
-- (void)handleDoubleTapFrom {
+- (void)handleDoubleTapFrom:(UITapGestureRecognizer *)tap {
     if (self.scrollView.isZoomBouncing || self.scrollView.isZooming) return;
-    if (self.scrollView.zoomScale > 1) {
-        [self.scrollView setZoomScale:1 animated:YES];
+    if (self.scrollView.zoomScale == self.scrollView.minimumZoomScale) {
+        [self.scrollView setZoomScale:1.5 animated:YES];
     } else {
-        [self.scrollView setZoomScale:2 animated:YES];
+        [self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:YES];
     }
 }
 
@@ -294,7 +295,7 @@
         _scrollView.showsVerticalScrollIndicator = NO;
         _scrollView.showsHorizontalScrollIndicator = NO;
         _scrollView.delegate = self;
-        _scrollView.maximumZoomScale = 3;
+        _scrollView.maximumZoomScale = 2;
     }
     return _scrollView;
 }
@@ -303,7 +304,8 @@
     if (!_imgView) {
         _imgView = [[UIImageView alloc] init];
         _imgView.userInteractionEnabled = YES;
-        _imgView.contentMode = UIViewContentModeScaleAspectFit;
+        _imgView.clipsToBounds = YES;
+        _imgView.contentMode = UIViewContentModeScaleAspectFill;
         panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(movePanGestureRecognizer:)];
         panGestureRecognizer.delegate = self;
         [_imgView addGestureRecognizer:panGestureRecognizer];
