@@ -78,7 +78,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/wangjiegit/WJImageBrowser.git", :tag => "1.0.0" }
+  s.source       = { :git => "git@github.com:wangjiegit/WJImageBrowser.git", :tag => "v#{s.version}" }
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
