@@ -204,10 +204,11 @@
 //双击放大或缩小
 - (void)handleDoubleTapFrom:(UITapGestureRecognizer *)tap {
     if (self.scrollView.isZoomBouncing || self.scrollView.isZooming) return;
-    if (self.scrollView.zoomScale == self.scrollView.minimumZoomScale) {
-        [self.scrollView setZoomScale:1.5 animated:YES];
+    if (self.scrollView.zoomScale > 1) {
+        [self.scrollView setZoomScale:1 animated:YES];
     } else {
-        [self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:YES];
+        CGPoint point = [tap locationInView:self];
+        [self.scrollView zoomToRect:CGRectMake(point.x, point.y, 1, 1) animated:YES];
     }
 }
 

@@ -97,13 +97,12 @@
 		A041C7C3217EC52300D6714C /* WJImageBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				A0D1DDE921C396FA00AE3B30 /* WJImageBrowserView */,
 				A0EF366C218079DD00669E33 /* image */,
 				A041C7C4217EC52300D6714C /* AppDelegate.h */,
 				A041C7C5217EC52300D6714C /* AppDelegate.m */,
 				A041C7C7217EC52300D6714C /* ViewController.h */,
 				A041C7C8217EC52300D6714C /* ViewController.m */,
-				A041C7DA217EC56C00D6714C /* WJImageBrowserView.h */,
-				A041C7DB217EC56C00D6714C /* WJImageBrowserView.m */,
 				A041C7CA217EC52300D6714C /* Main.storyboard */,
 				A041C7CD217EC52500D6714C /* Assets.xcassets */,
 				A041C7CF217EC52500D6714C /* LaunchScreen.storyboard */,
@@ -111,6 +110,15 @@
 				A041C7D3217EC52500D6714C /* main.m */,
 			);
 			path = WJImageBrowser;
+			sourceTree = "<group>";
+		};
+		A0D1DDE921C396FA00AE3B30 /* WJImageBrowserView */ = {
+			isa = PBXGroup;
+			children = (
+				A041C7DA217EC56C00D6714C /* WJImageBrowserView.h */,
+				A041C7DB217EC56C00D6714C /* WJImageBrowserView.m */,
+			);
+			path = WJImageBrowserView;
 			sourceTree = "<group>";
 		};
 		A0EF366C218079DD00669E33 /* image */ = {
