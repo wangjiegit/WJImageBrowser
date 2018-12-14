@@ -375,6 +375,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4C4EC2E39E329A95DE99A222 /* Pods-WJImageBrowser.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8CULH26XU6;
@@ -394,6 +395,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C5DCBCFEAAE98393EEF86119 /* Pods-WJImageBrowser.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8CULH26XU6;
