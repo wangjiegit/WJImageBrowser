@@ -51,6 +51,7 @@
         UIImageView *originalView = self.originalViews[i];
         UIImage *img = originalView.image;
         WJImageBrowserItem *item = [[WJImageBrowserItem alloc] init];
+        item.originalRect = originalView.bounds;
         item.frame = CGRectMake(i * _scrollView.frame.size.width, 0, self.frame.size.width, self.frame.size.height);
         item.imgView.image = img;
         if (i == self.currentIndex) {//当前选中的图片需要做相应的动画
@@ -228,13 +229,22 @@
         CGPoint location = [pgr locationInView:pgr.view.superview];
         CGPoint point = [pgr translationInView:pgr.view];
         CGRect rect = pgr.view.frame;
-        CGFloat height = rect.size.height - point.y;
-        CGFloat width = rect.size.width * height / rect.size.height;
-        CGFloat y = rect.origin.y + 1.5 * point.y;
-        CGFloat x = location.x * (rect.size.width - width) / pgr.view.superview.frame.size.width + point.x + rect.origin.x;
-        if (rect.origin.y < 0) {
-            height = pgr.view.superview.frame.size.height;
-            width = pgr.view.superview.frame.size.width;
+        
+        CGFloat height = rect.size.height;
+        CGFloat width = rect.size.width;
+        CGFloat y = rect.origin.y;
+        CGFloat x = rect.origin.x;
+        if (rect.size.width > self.originalRect.size.width && rect.size.height > self.originalRect.size.height) {
+             height = rect.size.height - point.y;
+             width = rect.size.width * height / rect.size.height;
+        }
+        y = rect.origin.y + 1.5 * point.y;
+        x = location.x * (rect.size.width - width) / pgr.view.superview.frame.size.width + point.x + rect.origin.x;
+        
+        CGFloat minY = (self.frame.size.height -  floorf(self.imgView.image.size.height * self.frame.size.width / self.imgView.image.size.width)) / 2.0;
+        if (rect.origin.y < minY) {
+            height = floorf(self.imgView.image.size.height * self.frame.size.width / self.imgView.image.size.width);
+            width = self.frame.size.width;
             y = rect.origin.y + point.y;
             x = rect.origin.x + point.x;
         }
@@ -243,7 +253,7 @@
         [pgr setTranslation:CGPointZero inView:pgr.view];
     } else if (pgr.state == UIGestureRecognizerStateEnded) {
         CGPoint velocity = [pgr velocityInView:pgr.view];
-        if (velocity.y > 500 && pgr.view.frame.origin.y > 0) {
+        if ((velocity.y > 500 && pgr.view.frame.origin.y > 0) || (pgr.view.frame.size.width <= self.originalRect.size.width || pgr.view.frame.size.height <= self.originalRect.size.height)) {
             if (self.closeBlcok) self.closeBlcok();
         } else {
             [UIView animateWithDuration:0.25 animations:^{

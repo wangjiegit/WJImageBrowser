@@ -28,6 +28,8 @@
 
 @property (nonatomic, strong) UIImageView *imgView;
 
+@property (nonatomic) CGRect originalRect;//原图的frame
+
 @property (nonatomic, strong) WJSectorProgressView *progressView;//下载进度条
 
 @property (nonatomic) BOOL isloading;//是否在加载中
