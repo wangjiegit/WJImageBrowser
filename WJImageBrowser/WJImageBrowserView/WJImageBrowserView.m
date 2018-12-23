@@ -229,18 +229,11 @@
         CGPoint location = [pgr locationInView:pgr.view.superview];
         CGPoint point = [pgr translationInView:pgr.view];
         CGRect rect = pgr.view.frame;
-        
-        CGFloat height = rect.size.height;
-        CGFloat width = rect.size.width;
-        CGFloat y = rect.origin.y;
-        CGFloat x = rect.origin.x;
-        if (rect.size.width > self.originalRect.size.width && rect.size.height > self.originalRect.size.height) {
-             height = rect.size.height - point.y;
-             width = rect.size.width * height / rect.size.height;
-        }
-        y = rect.origin.y + 1.5 * point.y;
-        x = location.x * (rect.size.width - width) / pgr.view.superview.frame.size.width + point.x + rect.origin.x;
-        
+        CGFloat height = rect.size.height - point.y;
+        if (height <= 100) height = 100;
+        CGFloat width = rect.size.width * height / rect.size.height;
+        CGFloat y = rect.origin.y + 1.5 * point.y;
+        CGFloat x = location.x * (rect.size.width - width) / pgr.view.superview.frame.size.width + point.x + rect.origin.x;
         CGFloat minY = (self.frame.size.height -  floorf(self.imgView.image.size.height * self.frame.size.width / self.imgView.image.size.width)) / 2.0;
         if (rect.origin.y < minY) {
             height = floorf(self.imgView.image.size.height * self.frame.size.width / self.imgView.image.size.width);
@@ -253,7 +246,7 @@
         [pgr setTranslation:CGPointZero inView:pgr.view];
     } else if (pgr.state == UIGestureRecognizerStateEnded) {
         CGPoint velocity = [pgr velocityInView:pgr.view];
-        if ((velocity.y > 500 && pgr.view.frame.origin.y > 0) || (pgr.view.frame.size.width <= self.originalRect.size.width || pgr.view.frame.size.height <= self.originalRect.size.height)) {
+        if (velocity.y > 500 && pgr.view.frame.origin.y > 0) {
             if (self.closeBlcok) self.closeBlcok();
         } else {
             [UIView animateWithDuration:0.25 animations:^{
