@@ -75,7 +75,7 @@
     CGSize size = [_pageView sizeForNumberOfPages:_cacheViews.count];
     _pageView.frame = CGRectMake((self.frame.size.width - size.width) / 2.0, self.frame.size.height - size.height - 20, size.width, size.height);
     
-    [[UIApplication sharedApplication].keyWindow addSubview:self];
+    [[UIApplication sharedApplication].keyWindow.rootViewController.view addSubview:self];
     if (self.currentIndex < _cacheViews.count) {
         //执行动画
         WJImageBrowserItem *currentItem = _cacheViews[self.currentIndex];
