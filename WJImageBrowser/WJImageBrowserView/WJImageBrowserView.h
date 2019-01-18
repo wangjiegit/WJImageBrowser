@@ -11,6 +11,8 @@
 
 @interface WJImageBrowserView : UIView<UIScrollViewDelegate>
 
+@property (nonatomic) BOOL showTransitionAnimation;//是否显示动画 默认YES
+
 @property (nonatomic, copy) NSArray<UIImageView *> *originalViews;//原图片视图集合
 
 @property (nonatomic, copy) NSArray<NSString *> *urls;//高清图片

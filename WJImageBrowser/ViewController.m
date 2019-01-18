@@ -74,6 +74,7 @@
 
 - (void)click:(UITapGestureRecognizer *)tgr {
     WJImageBrowserView *browserView = [[WJImageBrowserView alloc] init];
+    browserView.showTransitionAnimation = NO;
     browserView.originalViews = self.array;
     browserView.currentIndex = [self.array indexOfObject:tgr.view];
     [browserView show];

@@ -19,6 +19,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
+        self.showTransitionAnimation = YES;
         self.frame = [UIScreen mainScreen].bounds;
         self.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
         self.clipsToBounds = YES;
@@ -54,7 +55,7 @@
         item.originalRect = originalView.bounds;
         item.frame = CGRectMake(i * _scrollView.frame.size.width, 0, self.frame.size.width, self.frame.size.height);
         item.imgView.image = img;
-        if (i == self.currentIndex) {//当前选中的图片需要做相应的动画
+        if (i == self.currentIndex && self.showTransitionAnimation) {//当前选中的图片需要做相应的动画
             item.imgView.frame = [originalView convertRect:originalView.bounds toView:nil];
         } else {
             [item configContentSize];
@@ -76,17 +77,22 @@
     _pageView.frame = CGRectMake((self.frame.size.width - size.width) / 2.0, self.frame.size.height - size.height - 20, size.width, size.height);
     
     [[UIApplication sharedApplication].keyWindow.rootViewController.view addSubview:self];
-    if (self.currentIndex < _cacheViews.count) {
-        //执行动画
-        WJImageBrowserItem *currentItem = _cacheViews[self.currentIndex];
-        [UIView animateWithDuration:0.25 animations:^{
-            self.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
-            [currentItem configContentSize];
-        } completion:^(BOOL finished) {
-            self.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
-            [currentItem configContentSize];
-            [self downLoadImgs];//下载高清图片
-        }];
+    if (self.showTransitionAnimation) {
+        if (self.currentIndex < _cacheViews.count) {
+            //执行动画
+            WJImageBrowserItem *currentItem = _cacheViews[self.currentIndex];
+            [UIView animateWithDuration:0.25 animations:^{
+                self.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
+                [currentItem configContentSize];
+            } completion:^(BOOL finished) {
+                self.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
+                [currentItem configContentSize];
+                [self downLoadImgs];//下载高清图片
+            }];
+        }
+    } else {
+        self.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
+        [self downLoadImgs];//下载高清图片
     }
 }
 
@@ -101,23 +107,27 @@
 
 //关闭视图
 - (void)close {
-    if (self.currentIndex < self.originalViews.count) {
-        _pageView.hidden = YES;
-        UIImageView *currentOriginalView = self.originalViews[self.currentIndex];
-        WJImageBrowserItem *currentItem = _cacheViews[self.currentIndex];
-        CGRect frame = [currentOriginalView convertRect:currentOriginalView.bounds toView:nil];
-        [UIView animateWithDuration:0.25 animations:^{
-            self.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
-            currentItem.imgView.frame = frame;
-        } completion:^(BOOL finished) {
-            [self removeFromSuperview];
-        }];
+    if (self.showTransitionAnimation) {
+        if (self.currentIndex < self.originalViews.count) {
+            _pageView.hidden = YES;
+            UIImageView *currentOriginalView = self.originalViews[self.currentIndex];
+            WJImageBrowserItem *currentItem = _cacheViews[self.currentIndex];
+            CGRect frame = [currentOriginalView convertRect:currentOriginalView.bounds toView:nil];
+            [UIView animateWithDuration:0.25 animations:^{
+                self.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
+                currentItem.imgView.frame = frame;
+            } completion:^(BOOL finished) {
+                [self removeFromSuperview];
+            }];
+        } else {
+            [UIView animateWithDuration:0.25 animations:^{
+                self.alpha = 0;
+            } completion:^(BOOL finished) {
+                [self removeFromSuperview];
+            }];
+        }
     } else {
-        [UIView animateWithDuration:0.25 animations:^{
-            self.alpha = 0;
-        } completion:^(BOOL finished) {
-            [self removeFromSuperview];
-        }];
+        [self removeFromSuperview];
     }
 }
 
@@ -173,7 +183,9 @@
 
 - (void)loadImgUrl:(NSString *)urlString {
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
-    UIImage *image = [[manager imageCache] imageFromCacheForKey:urlString];
+    NSString *key = [manager cacheKeyForURL:[NSURL URLWithString:urlString]];
+    SDImageCache *cache = [SDImageCache sharedImageCache];
+    UIImage *image = [cache imageFromDiskCacheForKey:key];
     if (image) {//判断本地是否已经有图片了
         self.imgView.image = image;
         [self configContentSize];
