@@ -36,6 +36,10 @@
 
 @property (nonatomic) BOOL isloading;//是否在加载中
 
+@property (nonatomic, copy) void(^gestureBeganBlock)(void);//手势开始
+
+@property (nonatomic, copy) void(^gestureCancelBlock)(void);//手势取消
+
 @property (nonatomic, copy) void(^closeBlcok)(void);//关闭图片浏览器回调
 
 - (void)loadImgUrl:(NSString *)urlString;//加载url图片

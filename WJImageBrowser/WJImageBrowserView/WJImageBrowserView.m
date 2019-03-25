@@ -64,6 +64,20 @@
         item.closeBlcok = ^{
             [weakSelf close];
         };
+        if (self.showTransitionAnimation) {
+            item.gestureBeganBlock = ^{
+                if (weakSelf.currentIndex < weakSelf.originalViews.count) {
+                    UIImageView *currentOriginalView = weakSelf.originalViews[weakSelf.currentIndex];
+                    currentOriginalView.hidden = YES;
+                }
+            };
+            item.gestureCancelBlock = ^{
+                if (weakSelf.currentIndex < weakSelf.originalViews.count) {
+                    UIImageView *currentOriginalView = weakSelf.originalViews[weakSelf.currentIndex];
+                    currentOriginalView.hidden = NO;
+                }
+            };
+        }
         [_scrollView addSubview:item];
         [array addObject:item];
     }
@@ -111,6 +125,7 @@
         if (self.currentIndex < self.originalViews.count) {
             _pageView.hidden = YES;
             UIImageView *currentOriginalView = self.originalViews[self.currentIndex];
+            currentOriginalView.hidden = YES;
             WJImageBrowserItem *currentItem = _cacheViews[self.currentIndex];
             CGRect frame = [currentOriginalView convertRect:currentOriginalView.bounds toView:nil];
             [UIView animateWithDuration:0.25 animations:^{
@@ -118,6 +133,7 @@
                 currentItem.imgView.frame = frame;
             } completion:^(BOOL finished) {
                 [self removeFromSuperview];
+                currentOriginalView.hidden = NO;
             }];
         } else {
             [UIView animateWithDuration:0.25 animations:^{
@@ -237,6 +253,7 @@
 - (void)movePanGestureRecognizer:(UIPanGestureRecognizer *)pgr {
     if (pgr.state == UIGestureRecognizerStateBegan) {
         self.progressView.hidden = YES;
+        if (self.gestureBeganBlock) self.gestureBeganBlock();
     } else if (pgr.state == UIGestureRecognizerStateChanged) {
         CGPoint location = [pgr locationInView:pgr.view.superview];
         CGPoint point = [pgr translationInView:pgr.view];
@@ -268,6 +285,7 @@
                 self.superview.superview.backgroundColor = [UIColor blackColor];
                 [self configContentSize];
                 self.progressView.hidden = NO;
+                if (self.gestureCancelBlock) self.gestureCancelBlock();
             }];
         }
     } else {
