@@ -9,9 +9,16 @@
 #import <UIKit/UIKit.h>
 @class WJSectorProgressView;
 
+typedef NS_ENUM(NSInteger, WJImageBrowserViewType) {
+    WJImageBrowserViewTypeDefault = 0,
+    WJImageBrowserViewTypeBanner = 1,
+};
+
 @interface WJImageBrowserView : UIView<UIScrollViewDelegate>
 
-@property (nonatomic, copy) NSArray<UIImageView *> *originalViews;//原图片视图集合
+@property (nonatomic, copy) NSArray<UIImageView *> *originalViews;//原图片视图集合 如果是banner的话 穿当前imageview一个就行
+
+@property (nonatomic) WJImageBrowserViewType browserViewType;//默认普通的 如果是banner的话 需要设置
 
 @property (nonatomic, copy) NSArray<NSString *> *urls;//高清图片
 

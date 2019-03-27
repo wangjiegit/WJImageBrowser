@@ -51,11 +51,15 @@
     for (int i = 0; i < count; i++) {
         WJImageBrowserItem *item = [[WJImageBrowserItem alloc] init];
         item.frame = CGRectMake(i * _scrollView.frame.size.width, 0, self.frame.size.width, self.frame.size.height);
-        UIImageView *originalView = self.originalViews.firstObject;
+        UIImageView *originalView;
         if (i < self.originalViews.count) {
             originalView = self.originalViews[i];
-            item.imgView.image = originalView.image;
+        } else {
+            if (self.browserViewType == WJImageBrowserViewTypeBanner) {
+                originalView = self.originalViews.firstObject;
+            }
         }
+        item.imgView.image = originalView.image;
         if (i == self.currentIndex && originalView) {//当前选中的图片需要做相应的动画
             item.imgView.frame = [originalView convertRect:originalView.bounds toView:nil];
         } else {
@@ -67,17 +71,25 @@
             [weakSelf close];
         };
         item.gestureBeganBlock = ^{
-            UIImageView *currentOriginalView = weakSelf.originalViews.firstObject;
+            UIImageView *currentOriginalView;
             if (weakSelf.currentIndex < weakSelf.originalViews.count) {
                 currentOriginalView = weakSelf.originalViews[weakSelf.currentIndex];
+            } else {
+                if (weakSelf.browserViewType == WJImageBrowserViewTypeBanner) {
+                    currentOriginalView = weakSelf.originalViews.firstObject;
+                }
             }
             weakPageView.hidden = YES;
             currentOriginalView.hidden = YES;
         };
         item.gestureCancelBlock = ^{
-            UIImageView *currentOriginalView = weakSelf.originalViews.firstObject;
+            UIImageView *currentOriginalView;
             if (weakSelf.currentIndex < weakSelf.originalViews.count) {
                 currentOriginalView = weakSelf.originalViews[weakSelf.currentIndex];
+            } else {
+                if (weakSelf.browserViewType == WJImageBrowserViewTypeBanner) {
+                    currentOriginalView = weakSelf.originalViews.firstObject;
+                }
             }
             weakPageView.hidden = NO;
             currentOriginalView.hidden = NO;
@@ -122,8 +134,14 @@
 - (void)close {
     if (self.closeBlock) self.closeBlock(self.currentIndex);
     _pageView.hidden = YES;
-    UIImageView *currentOriginalView = self.originalViews.firstObject;;
-    if (self.currentIndex < self.originalViews.count) currentOriginalView = self.originalViews[self.currentIndex];
+    UIImageView *currentOriginalView;
+    if (self.currentIndex < self.originalViews.count) {
+        currentOriginalView = self.originalViews[self.currentIndex];
+    } else {
+        if (self.browserViewType == WJImageBrowserViewTypeBanner) {
+            currentOriginalView = self.originalViews.firstObject;
+        }
+    }
     if (currentOriginalView) {
         currentOriginalView.hidden = YES;
         WJImageBrowserItem *currentItem = _cacheViews[self.currentIndex];

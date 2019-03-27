@@ -120,6 +120,7 @@
     browserView.originalViews = @[bannerView.currImageView];
     browserView.urls = self.bannUrl;
     browserView.currentIndex = index;
+    browserView.browserViewType = WJImageBrowserViewTypeBanner;
     browserView.closeBlock = ^(NSInteger index) {
         [bannerView scrollToIndex:index];
     };
