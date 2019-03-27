@@ -19,7 +19,6 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.showTransitionAnimation = YES;
         self.frame = [UIScreen mainScreen].bounds;
         self.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
         self.clipsToBounds = YES;
@@ -48,36 +47,41 @@
 - (void)show {
     NSMutableArray *array = [NSMutableArray array];
     //添加每个图片
-    for (int i = 0; i < self.originalViews.count; i++) {
-        UIImageView *originalView = self.originalViews[i];
-        UIImage *img = originalView.image;
+    NSInteger count = MAX(self.originalViews.count, self.urls.count);
+    for (int i = 0; i < count; i++) {
         WJImageBrowserItem *item = [[WJImageBrowserItem alloc] init];
-        item.originalRect = originalView.bounds;
         item.frame = CGRectMake(i * _scrollView.frame.size.width, 0, self.frame.size.width, self.frame.size.height);
-        item.imgView.image = img;
-        if (i == self.currentIndex && self.showTransitionAnimation) {//当前选中的图片需要做相应的动画
+        UIImageView *originalView = self.originalViews.firstObject;
+        if (i < self.originalViews.count) {
+            originalView = self.originalViews[i];
+            item.imgView.image = originalView.image;
+        }
+        if (i == self.currentIndex && originalView) {//当前选中的图片需要做相应的动画
             item.imgView.frame = [originalView convertRect:originalView.bounds toView:nil];
         } else {
             [item configContentSize];
         }
         __weak typeof(self) weakSelf = self;
+        __weak typeof(_pageView) weakPageView = _pageView;
         item.closeBlcok = ^{
             [weakSelf close];
         };
-        if (self.showTransitionAnimation) {
-            item.gestureBeganBlock = ^{
-                if (weakSelf.currentIndex < weakSelf.originalViews.count) {
-                    UIImageView *currentOriginalView = weakSelf.originalViews[weakSelf.currentIndex];
-                    currentOriginalView.hidden = YES;
-                }
-            };
-            item.gestureCancelBlock = ^{
-                if (weakSelf.currentIndex < weakSelf.originalViews.count) {
-                    UIImageView *currentOriginalView = weakSelf.originalViews[weakSelf.currentIndex];
-                    currentOriginalView.hidden = NO;
-                }
-            };
-        }
+        item.gestureBeganBlock = ^{
+            UIImageView *currentOriginalView = weakSelf.originalViews.firstObject;
+            if (weakSelf.currentIndex < weakSelf.originalViews.count) {
+                currentOriginalView = weakSelf.originalViews[weakSelf.currentIndex];
+            }
+            weakPageView.hidden = YES;
+            currentOriginalView.hidden = YES;
+        };
+        item.gestureCancelBlock = ^{
+            UIImageView *currentOriginalView = weakSelf.originalViews.firstObject;
+            if (weakSelf.currentIndex < weakSelf.originalViews.count) {
+                currentOriginalView = weakSelf.originalViews[weakSelf.currentIndex];
+            }
+            weakPageView.hidden = NO;
+            currentOriginalView.hidden = NO;
+        };
         [_scrollView addSubview:item];
         [array addObject:item];
     }
@@ -91,22 +95,17 @@
     _pageView.frame = CGRectMake((self.frame.size.width - size.width) / 2.0, self.frame.size.height - size.height - 20, size.width, size.height);
     
     [[UIApplication sharedApplication].keyWindow.rootViewController.view addSubview:self];
-    if (self.showTransitionAnimation) {
-        if (self.currentIndex < _cacheViews.count) {
-            //执行动画
-            WJImageBrowserItem *currentItem = _cacheViews[self.currentIndex];
-            [UIView animateWithDuration:0.25 animations:^{
-                self.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
-                [currentItem configContentSize];
-            } completion:^(BOOL finished) {
-                self.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
-                [currentItem configContentSize];
-                [self downLoadImgs];//下载高清图片
-            }];
-        }
-    } else {
-        self.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
-        [self downLoadImgs];//下载高清图片
+    if (self.currentIndex < _cacheViews.count) {
+        //执行动画
+        WJImageBrowserItem *currentItem = _cacheViews[self.currentIndex];
+        [UIView animateWithDuration:0.25 animations:^{
+            self.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
+            [currentItem configContentSize];
+        } completion:^(BOOL finished) {
+            self.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
+            [currentItem configContentSize];
+            [self downLoadImgs];//下载高清图片
+        }];
     }
 }
 
@@ -121,29 +120,27 @@
 
 //关闭视图
 - (void)close {
-    if (self.showTransitionAnimation) {
-        if (self.currentIndex < self.originalViews.count) {
-            _pageView.hidden = YES;
-            UIImageView *currentOriginalView = self.originalViews[self.currentIndex];
-            currentOriginalView.hidden = YES;
-            WJImageBrowserItem *currentItem = _cacheViews[self.currentIndex];
-            CGRect frame = [currentOriginalView convertRect:currentOriginalView.bounds toView:nil];
-            [UIView animateWithDuration:0.25 animations:^{
-                self.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
-                currentItem.imgView.frame = frame;
-            } completion:^(BOOL finished) {
-                [self removeFromSuperview];
-                currentOriginalView.hidden = NO;
-            }];
-        } else {
-            [UIView animateWithDuration:0.25 animations:^{
-                self.alpha = 0;
-            } completion:^(BOOL finished) {
-                [self removeFromSuperview];
-            }];
-        }
+    if (self.closeBlock) self.closeBlock(self.currentIndex);
+    _pageView.hidden = YES;
+    UIImageView *currentOriginalView = self.originalViews.firstObject;;
+    if (self.currentIndex < self.originalViews.count) currentOriginalView = self.originalViews[self.currentIndex];
+    if (currentOriginalView) {
+        currentOriginalView.hidden = YES;
+        WJImageBrowserItem *currentItem = _cacheViews[self.currentIndex];
+        CGRect frame = [currentOriginalView convertRect:currentOriginalView.bounds toView:nil];
+        [UIView animateWithDuration:0.25 animations:^{
+            self.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
+            currentItem.imgView.frame = frame;
+        } completion:^(BOOL finished) {
+            [self removeFromSuperview];
+            currentOriginalView.hidden = NO;
+        }];
     } else {
-        [self removeFromSuperview];
+        [UIView animateWithDuration:0.25 animations:^{
+            self.alpha = 0;
+        } completion:^(BOOL finished) {
+            [self removeFromSuperview];
+        }];
     }
 }
 
@@ -307,7 +304,7 @@
     CGFloat offsetX = (scrollView.bounds.size.width > scrollView.contentSize.width) ? (scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5 : 0.0;
     CGFloat offsetY = (scrollView.bounds.size.height > scrollView.contentSize.height) ? (scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5 : 0.0;
     self.imgView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
-                                    scrollView.contentSize.height * 0.5 + offsetY);
+                                      scrollView.contentSize.height * 0.5 + offsetY);
 }
 
 #pragma mark UIGestureRecognizerDelegate

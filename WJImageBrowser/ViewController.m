@@ -9,10 +9,13 @@
 #import "ViewController.h"
 #import <UIImageView+WebCache.h>
 #import "WJImageBrowserView.h"
+#import "WJBannerView.h"
 
-@interface ViewController ()
+@interface ViewController ()<WJBannerViewDelegate, WJBannerViewDataSource>
 
 @property (nonatomic, strong) NSMutableArray *array;
+
+@property (nonatomic, strong) NSArray *bannUrl;
 
 @end
 
@@ -20,8 +23,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.array = [NSMutableArray array];
+//    [self setupView1];
+    [self setupView2];
+    
+    
+    // Do any additional setup after loading the view, typically from a nib.
+}
 
+- (void)setupView1 {
+    self.array = [NSMutableArray array];
+    
     UIImageView *imageView = [self createImageView];
     imageView.image = [UIImage imageNamed:@"1.jpg"];
     imageView.frame = CGRectMake(20, 100, 100, 100);
@@ -57,8 +68,15 @@
     imageView.frame = CGRectMake(220, 200, 100, 100);
     [self.view addSubview:imageView];
     [self.array addObject:imageView];
-    
-    // Do any additional setup after loading the view, typically from a nib.
+}
+
+- (void)setupView2 {
+    self.view.backgroundColor = [UIColor yellowColor];
+    WJBannerView *bannerView = [[WJBannerView alloc] initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, self.view.frame.size.width)];
+    bannerView.dataSource = self;
+    bannerView.delegate = self;
+    [self.view addSubview:bannerView];
+    [bannerView reloadData];
 }
 
 - (UIImageView *)createImageView {
@@ -74,9 +92,37 @@
 
 - (void)click:(UITapGestureRecognizer *)tgr {
     WJImageBrowserView *browserView = [[WJImageBrowserView alloc] init];
-    browserView.showTransitionAnimation = NO;
     browserView.originalViews = self.array;
     browserView.currentIndex = [self.array indexOfObject:tgr.view];
+    [browserView show];
+}
+
+
+#pragma mark WJBannerViewDataSource
+
+//图片总个数
+- (NSInteger)wj_numberOfRowInWJBannerView:(WJBannerView *)bannerView {
+    return self.bannUrl.count;
+}
+
+//获取当前图片urlString
+- (NSURL *)wj_bannerView:(WJBannerView *)bannerView imageNameForIndex:(NSInteger)index {
+    if (index < self.bannUrl.count) {
+        return [NSURL URLWithString:self.bannUrl[index]];
+    }
+    return nil;
+}
+
+#pragma mark WJBannerViewDelegate
+
+- (void)wj_bannerView:(WJBannerView *)bannerView didSelectedRowAtIndex:(NSInteger)index {
+    WJImageBrowserView *browserView = [[WJImageBrowserView alloc] init];
+    browserView.originalViews = @[bannerView.currImageView];
+    browserView.urls = self.bannUrl;
+    browserView.currentIndex = index;
+    browserView.closeBlock = ^(NSInteger index) {
+        [bannerView scrollToIndex:index];
+    };
     [browserView show];
 }
 
@@ -86,5 +132,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (NSArray *)bannUrl {
+    if (!_bannUrl) {
+        _bannUrl = @[            @"https://img.tbb.la/images/201810/thumb_img/7620_thumb_P_1540594679099.jpg",
+                                 @"https://img.tbb.la/images/201810/thumb_img/7620_thumb_P_1540594680509.jpg",
+                                 @"https://img.tbb.la/images/201810/thumb_img/7620_thumb_P_1540594681895.jpg",
+                                 @"https://img.tbb.la/images/201810/thumb_img/7620_thumb_P_1540594683398.jpg"
+];
+    }
+    return _bannUrl;
+}
 
 @end

@@ -11,13 +11,13 @@
 
 @interface WJImageBrowserView : UIView<UIScrollViewDelegate>
 
-@property (nonatomic) BOOL showTransitionAnimation;//是否显示动画 默认YES
-
 @property (nonatomic, copy) NSArray<UIImageView *> *originalViews;//原图片视图集合
 
 @property (nonatomic, copy) NSArray<NSString *> *urls;//高清图片
 
 @property (nonatomic) NSUInteger currentIndex;//当前选中的index
+
+@property (nonatomic, copy) void(^closeBlock)(NSInteger index);//即将关闭时回调
 
 - (void)show;//展示图片浏览器
 
@@ -29,8 +29,6 @@
 @property (nonatomic, strong) UIScrollView *scrollView;//用来放大缩小
 
 @property (nonatomic, strong) UIImageView *imgView;
-
-@property (nonatomic) CGRect originalRect;//原图的frame
 
 @property (nonatomic, strong) WJSectorProgressView *progressView;//下载进度条
 

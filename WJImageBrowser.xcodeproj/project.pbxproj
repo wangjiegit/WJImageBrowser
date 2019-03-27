@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4A20C2C32DCDBA5AC5B2690D /* libPods-WJImageBrowser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC06A081D1758256E3E76BA9 /* libPods-WJImageBrowser.a */; };
+		A01D7111224B76BC004EFB46 /* WJBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A01D710F224B76BC004EFB46 /* WJBannerView.m */; };
 		A041C7C6217EC52300D6714C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A041C7C5217EC52300D6714C /* AppDelegate.m */; };
 		A041C7C9217EC52300D6714C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A041C7C8217EC52300D6714C /* ViewController.m */; };
 		A041C7CC217EC52300D6714C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A041C7CA217EC52300D6714C /* Main.storyboard */; };
@@ -25,6 +26,8 @@
 
 /* Begin PBXFileReference section */
 		4C4EC2E39E329A95DE99A222 /* Pods-WJImageBrowser.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WJImageBrowser.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WJImageBrowser/Pods-WJImageBrowser.debug.xcconfig"; sourceTree = "<group>"; };
+		A01D710F224B76BC004EFB46 /* WJBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WJBannerView.m; sourceTree = "<group>"; };
+		A01D7110224B76BC004EFB46 /* WJBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WJBannerView.h; sourceTree = "<group>"; };
 		A041C7C1217EC52300D6714C /* WJImageBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WJImageBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A041C7C4217EC52300D6714C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A041C7C5217EC52300D6714C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -103,6 +106,8 @@
 				A041C7C5217EC52300D6714C /* AppDelegate.m */,
 				A041C7C7217EC52300D6714C /* ViewController.h */,
 				A041C7C8217EC52300D6714C /* ViewController.m */,
+				A01D7110224B76BC004EFB46 /* WJBannerView.h */,
+				A01D710F224B76BC004EFB46 /* WJBannerView.m */,
 				A041C7CA217EC52300D6714C /* Main.storyboard */,
 				A041C7CD217EC52500D6714C /* Assets.xcassets */,
 				A041C7CF217EC52500D6714C /* LaunchScreen.storyboard */,
@@ -233,6 +238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A041C7C9217EC52300D6714C /* ViewController.m in Sources */,
+				A01D7111224B76BC004EFB46 /* WJBannerView.m in Sources */,
 				A041C7D4217EC52500D6714C /* main.m in Sources */,
 				A041C7DC217EC56C00D6714C /* WJImageBrowserView.m in Sources */,
 				A041C7C6217EC52300D6714C /* AppDelegate.m in Sources */,
