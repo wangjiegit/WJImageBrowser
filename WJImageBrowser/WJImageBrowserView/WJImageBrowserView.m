@@ -132,7 +132,6 @@
 
 //关闭视图
 - (void)close {
-    if (self.closeBlock) self.closeBlock(self.currentIndex);
     _pageView.hidden = YES;
     UIImageView *currentOriginalView;
     if (self.currentIndex < self.originalViews.count) {
@@ -151,6 +150,7 @@
             currentItem.imgView.frame = frame;
         } completion:^(BOOL finished) {
             [self removeFromSuperview];
+            if (self.closeBlock) self.closeBlock(self.currentIndex);
             currentOriginalView.hidden = NO;
         }];
     } else {
@@ -158,6 +158,7 @@
             self.alpha = 0;
         } completion:^(BOOL finished) {
             [self removeFromSuperview];
+            if (self.closeBlock) self.closeBlock(self.currentIndex);
         }];
     }
 }
