@@ -224,11 +224,11 @@
     } else {
         [self showProgressView];
         self.isloading = YES;
-        [self.imgView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:self.imgView.image options:(0) progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+        [self.imgView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:self.imgView.image options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.progressView.progress = receivedSize * 1.0 / expectedSize;
             });
-        } completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             self.isloading = NO;
             [self configContentSize];
             [self.progressView removeFromSuperview];
