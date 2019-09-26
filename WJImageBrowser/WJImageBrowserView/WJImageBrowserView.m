@@ -9,6 +9,7 @@
 #import "WJImageBrowserView.h"
 #import "SDWebImageManager.h"
 #import "UIImageView+WebCache.h"
+#import "SDImageCache.h"
 
 @implementation WJImageBrowserView {
     UIScrollView *_scrollView;
@@ -217,18 +218,18 @@
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     NSString *key = [manager cacheKeyForURL:[NSURL URLWithString:urlString]];
     SDImageCache *cache = [SDImageCache sharedImageCache];
-    UIImage *image = [cache imageFromDiskCacheForKey:key];
+    UIImage *image = [cache imageFromCacheForKey:key];
     if (image) {//判断本地是否已经有图片了
         self.imgView.image = image;
         [self configContentSize];
     } else {
         [self showProgressView];
         self.isloading = YES;
-        [self.imgView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:self.imgView.image options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        [self.imgView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:self.imgView.image options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.progressView.progress = receivedSize * 1.0 / expectedSize;
             });
-        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        } completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
             self.isloading = NO;
             [self configContentSize];
             [self.progressView removeFromSuperview];
