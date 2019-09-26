@@ -7,9 +7,7 @@
 //
 
 #import "WJImageBrowserView.h"
-#import "SDWebImageManager.h"
-#import "UIImageView+WebCache.h"
-#import "SDImageCache.h"
+#import "SDWebImage.h"
 
 @implementation WJImageBrowserView {
     UIScrollView *_scrollView;
