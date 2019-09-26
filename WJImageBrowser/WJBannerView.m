@@ -123,8 +123,8 @@
 //开启定时器
 - (void)startTimer {
     [self stopTimer];
-    timer = [NSTimer timerWithTimeInterval:self.timeInterval target:self selector:@selector(intervalRoll) userInfo:nil repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+//    timer = [NSTimer timerWithTimeInterval:self.timeInterval target:self selector:@selector(intervalRoll) userInfo:nil repeats:YES];
+//    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
 }
 
 //关闭定时器

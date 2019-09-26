@@ -135,7 +135,7 @@
 
 - (NSArray *)bannUrl {
     if (!_bannUrl) {
-        _bannUrl = @[            @"https://img.tbb.la/images/201810/thumb_img/7620_thumb_P_1540594679099.jpg",
+        _bannUrl = @[            @"https://img2.tbb.la/images/dis_group_img/201905/1557457455194942190.gif",
                                  @"https://img.tbb.la/images/201810/thumb_img/7620_thumb_P_1540594680509.jpg",
                                  @"https://img.tbb.la/images/201810/thumb_img/7620_thumb_P_1540594681895.jpg",
                                  @"https://img.tbb.la/images/201810/thumb_img/7620_thumb_P_1540594683398.jpg"
