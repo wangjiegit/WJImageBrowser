@@ -23,8 +23,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [self setupView1];
-    [self setupView2];
+    [self setupView1];
+//    [self setupView2];
     
     
     // Do any additional setup after loading the view, typically from a nib.
@@ -94,6 +94,9 @@
     WJImageBrowserView *browserView = [[WJImageBrowserView alloc] init];
     browserView.originalViews = self.array;
     browserView.currentIndex = [self.array indexOfObject:tgr.view];
+    browserView.longBlock = ^(WJImageBrowserView *browserView) {
+        
+    };
     [browserView show];
 }
 

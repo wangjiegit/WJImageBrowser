@@ -41,6 +41,8 @@
     _pageView.currentPageIndicatorTintColor = [UIColor whiteColor];
     _pageView.pageIndicatorTintColor = [UIColor grayColor];
     [self addSubview:_pageView];
+    
+    [self addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(touchLongEvent:)]];
 }
 
 - (void)show {
@@ -105,7 +107,7 @@
     CGSize size = [_pageView sizeForNumberOfPages:_cacheViews.count];
     _pageView.frame = CGRectMake((self.frame.size.width - size.width) / 2.0, self.frame.size.height - size.height - 20, size.width, size.height);
     
-    [[UIApplication sharedApplication].keyWindow.rootViewController.view addSubview:self];
+    [[UIApplication sharedApplication].keyWindow addSubview:self];
     if (self.currentIndex < _cacheViews.count) {
         //执行动画
         WJImageBrowserItem *currentItem = _cacheViews[self.currentIndex];
@@ -159,6 +161,13 @@
             [self removeFromSuperview];
             if (self.closeBlock) self.closeBlock(self.currentIndex);
         }];
+    }
+}
+
+- (void)touchLongEvent:(UILongPressGestureRecognizer *)lpg  {
+    if (lpg.state != UIGestureRecognizerStateBegan) return;
+    if (self.longBlock) {
+        self.longBlock(self);
     }
 }
 
