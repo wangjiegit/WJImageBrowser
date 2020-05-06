@@ -166,8 +166,8 @@
 
 - (void)touchLongEvent:(UILongPressGestureRecognizer *)lpg  {
     if (lpg.state != UIGestureRecognizerStateBegan) return;
-    if (self.longBlock) {
-        self.longBlock(self);
+    if (self.longBlock && self.currentIndex < self.urls.count) {
+        self.longBlock(self.urls[self.currentIndex]);
     }
 }
 

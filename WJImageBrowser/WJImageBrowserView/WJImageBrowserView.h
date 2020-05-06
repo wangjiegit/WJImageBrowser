@@ -26,7 +26,7 @@ typedef NS_ENUM(NSInteger, WJImageBrowserViewType) {
 
 @property (nonatomic, copy) void(^closeBlock)(NSInteger index);//即将关闭时回调
 
-@property (nonatomic, copy) void(^longBlock)(WJImageBrowserView *browserView);//长按回调事件
+@property (nonatomic, copy) void(^longBlock)(NSString *url);//长按回调事件
 
 - (void)show;//展示图片浏览器
 

@@ -94,9 +94,6 @@
     WJImageBrowserView *browserView = [[WJImageBrowserView alloc] init];
     browserView.originalViews = self.array;
     browserView.currentIndex = [self.array indexOfObject:tgr.view];
-    browserView.longBlock = ^(WJImageBrowserView *browserView) {
-        
-    };
     [browserView show];
 }
 
